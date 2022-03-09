@@ -21,12 +21,13 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 	private JButton run;
 	private JSlider pred;
 	private JFrame frame;
-	private JCheckBox modeSwitch;
+	private JButton modeSwitch;
 
 	private int iterNum = 0;
 	private final int maxDelay = 500;
 	private final int initDelay = 100;
 	private boolean running = false;
+	private int MODE = 0; //
 
 	public GUI(JFrame jf) {
 		frame = jf;
@@ -82,15 +83,15 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		pred.addChangeListener(this);
 		pred.setValue(maxDelay - timer.getDelay());
 
-		/*modeSwitch = new JCheckBox("Rain");
-		modeSwitch.setActionCommand("rain");
+		modeSwitch = new JButton("Switch");
+		modeSwitch.setActionCommand("switch");
 		modeSwitch.setToolTipText("Choose between Rain/Life ( Life - unchecked, Rain - checked)");
-		modeSwitch.addChangeListener(this);*/
+		modeSwitch.addActionListener(this);
 
 		buttonPanel.add(start);
 		buttonPanel.add(clear);
 		buttonPanel.add(pred);
-		//buttonPanel.add(modeSwitch);
+		buttonPanel.add(modeSwitch);
 
 		board = new Board(1024, 768 - buttonPanel.getHeight(),MODE);
 		container.add(board, BorderLayout.CENTER);
@@ -127,12 +128,16 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 				board.clear();
 				frame.setTitle("Cellular Automata Toolbox");
 			}
-			/*else if (command.equals("run")) {
-				boolean mode = modeSwitch.isSelected();
-				mainContainer.removeAll();
-				MODE = mode ? 1:0;
-				initialize(mainContainer);
-			}*/
+			else if (command.equals("switch")) {
+				iterNum = 0;
+				timer.stop();
+				start.setEnabled(true);
+				board.clear();
+				frame.setTitle("Cellular Automata Toolbox");
+				MODE = (MODE+1)%2;
+				board.switchMode(MODE);
+				System.out.println("switched");
+			}
 
 		}
 	}

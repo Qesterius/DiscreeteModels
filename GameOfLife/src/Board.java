@@ -195,4 +195,10 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 	public void mousePressed(MouseEvent e) {
 	}
 
+	public void switchMode(int inMode)
+	{
+		MODE = inMode;
+		initialize(points.length, points[0].length);
+
+	}
 }
